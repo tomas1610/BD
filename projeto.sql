@@ -16,12 +16,28 @@ CREATE TABLE super_category(
     FOREIGN KEY(nome) REFERENCES category(nome)
 );
 
+CREATE TABLE tem_outra(
+    super_category,
+    category,
+    PRIMARY KEY(category),
+    FOREIGN KEY(category) REFERENCES category(nome),
+    FOREIGN KEY(super_category) REFERENCES super_category(nome),
+    super_category != category
+);
+
 CREATE TABLE product(
     ean numeric(13,0),
     cat varchar(255),
     descr varchar(255),
     PRIMARY KEY(ean),
     FOREIGN KEY(cat) REFERENCES category(nome)
+);
+
+CREATE TABLE tem_categoria(
+    ean numeric(13,0),
+    nome varchar(255),
+    FOREIGN KEY(ean) REFERENCES product(ean),
+    FOREIGN KEY(nome) REFERENCES category(nome)
 );
 
 CREATE TABLE ivm(
@@ -37,12 +53,26 @@ CREATE TABLE ponto_de_retalho(
     PRIMARY KEY(nome)
 );
 
+CREATE TABLE installed_at(
+    num_serie int,
+    manuf varchar(255),
+    place varchar(255),
+    PRIMARY KEY(num_serie),
+    PRIMARY KEY(manuf),
+    FOREIGN KEY(num_serie) REFERENCES ivm(num_serie),
+    FOREIGN KEY(manuf) REFERENCES ivm(manuf),
+    FOREIGN KEY(place) REFERENCES ponto_de_retalho(concelho)
+);
+
 CREATE TABLE shelve(
     nro int,
     num_serie int,
     manuf varchar(255),
     heigh int,
     nome varchar(255),
+    PRIMARY KEY(nro),
+    PRIMARY KEY(num_serie),
+    PRIMARY KEY(manuf),
     FOREIGN KEY(num_serie) REFERENCES ivm(num_serie),
     FOREIGN KEY(manuf) REFERENCES ivm(manuf),
     FOREIGN KEY(nome) REFERENCES category(nome)
