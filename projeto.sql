@@ -197,16 +197,18 @@ END;
 /*  SQL   */
 
 
-SELECT MAX(count(nome)),
+SELECT nome
 FROM responsavel_por
-NATURAL JOIN retailer
-GROUP BY nome_cat
+NATURAL JOIN retalhista
+GROUP BY nome
+HAVING COUNT(tin) >= ALL(
+    SELECT COUNT(tin)
+    FROM responsavel_por
+    GROUP BY tin);
 
  
-SELECT nome
-FROM responsavel_por NATURAL JOIN categoria_simples
-GROUP BY nome
-HAVING count(distinct (categoria_simples.nome)) = (SELECT count(*) FROM categoria_simples);
+SELECT nome FROM retalhista
+WHERE tin IN  (SELECT tin FROM responsavel_por WHERE nome_cat IN (SELECT nome FROM categoria_simples)); 
 
 SELECT ean 
 FROM produto
@@ -217,18 +219,4 @@ SELECT  nome
 FROM evento_reposicao
 NATURAL JOIN produto,retailer
 GROUP BY ean
-WHERE (count(distinct nome) == 1);
- 
-
-SELECT customer_name
-FROM depositor d NATURAL JOIN customer c
-WHERE NOT EXISTS (
-SELECT branch_name
-FROM branch
-WHERE branch_city = c.customer_city
-EXCEPT
-SELECT branch_name
-FROM depositor d2 NATURAL JOIN account
-WHERE d2.customer_name = d.custumer_name);
-
-
+WHERE (COUNT(distinct nome) == 1);

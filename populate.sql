@@ -13,28 +13,28 @@ INSERT INTO produto(ean,cat,descr) VALUES ('175616578157','Massa','Esparguete'),
 INSERT INTO tem_categoria(ean,nome) VALUES ('175616578157','Massa'), ('1955193956522','Massa'), ('5839678063314','Arroz'),
  ('8170646435651','Gelado'), ('8336565155354','Peixe'), ('2661153333792','Carne'), ('2165008898193','Carne'), ('7242985114642','Peixe');
 
-INSERT INTO ivm(num_serie,manuf) VALUES ('43','Tomás'),('1567','Filipe'),('294','Diogo'),('324','Matilde'),('7542','Marta'),('526','Mariana');
+INSERT INTO ivm(num_serie,manuf) VALUES ('43','Galp'),('43','MAQUINAS3000'),('294','Galp'),('324','MartaLda'),('7542','Mercedes'),('43','Ferrari');
 
 INSERT INTO ponto_de_retalho(nome,distrito,concelho) VALUES ('Galp','Aveiro','Aveiro'),('Continente','Aveiro','Ilhavo'),('Pingo Doce','Lisboa','Lisboa'),
 ('Mercadona','Porto','Porto'),('Jumbo','Lisboa','Almada');
 
-INSERT INTO instalada_em(num_serie,manuf,place) VALUES ('43','Tomás','Galp'),('1567','Filipe','Jumbo'),('294','Diogo','Continente'),('324','Matilde','Galp'),
-('7542','Marta','Pingo Doce'),('526','Mariana','Galp');
+INSERT INTO instalada_em(num_serie,manuf,place) VALUES ('43','Galp','Continente'),('43','MAQUINAS3000','Jumbo'),('294','Galp','Jumbo'),('43','Ferrari','Mercadona'),
+('324','MartaLda','Pingo Doce'),('7542','Mercedes','Galp');
 
-INSERT INTO prateleira(nro,num_serie,manuf,heigh,nome) VALUES ('1','43','Tomás','30','Massa'),('2','1567','Filipe','12','Arroz'),
-('3','294','Diogo','8','Gelado'),('4','324','Matilde','2','Peixe'),('5','7542','Marta','42','Carne'),('6','526','Mariana','17','Carne');
+INSERT INTO prateleira(nro,num_serie,manuf,heigh,nome) VALUES ('1','43','Galp','30','Massa'),('2','43','MAQUINAS3000','12','Arroz'),
+('3','294','Galp','8','Gelado'),('4','324','MartaLda','2','Peixe'),('5','7542','Mercedes','42','Carne'),('6','43','Ferrari','17','Carne');
 
 INSERT INTO planograma(ean,nro,num_serie,manuf,faces,units) 
-VALUES ('175616578157','1','43','Tomás','3','7'),
- ('1955193956522','2','1567','Filipe','1','10'),
-  ('5839678063314','3','294','Diogo','5','9'),
-   ('8170646435651','4','324','Matilde','1','10'),
-    ('8336565155354','5','7542','Marta','2','6'),
-     ('2661153333792','6','526','Mariana','3','9');
+VALUES ('175616578157','1','43','Galp','3','7'),
+ ('1955193956522','2','43','MAQUINAS3000','1','10'),
+  ('5839678063314','3','294','Galp','5','9'),
+   ('8170646435651','4','324','MartaLda','1','10'),
+    ('8336565155354','5','7542','Mercedes','2','6'),
+     ('2661153333792','6','43','Ferrari','3','9');
 
 INSERT INTO retalhista(tin,nome) VALUES ('145','Tomás'),('13','Diogo'),('313','Filipe'),('1564','Matilde'),('193','Mariana'),('83','Adriana');
 
-INSERT INTO responsavel_por(nome_cat,tin,num_serie,manuf) VALUES ('Massa','145','43','Tomás'),('Proteína','13','1567','Filipe'),
-('Carne','313','294','Diogo'),('Doces','1564','324','Matilde'),('Arroz','193','7542','Marta'),('Hidratos','83','526','Mariana');
+INSERT INTO responsavel_por(nome_cat,tin,num_serie,manuf) VALUES ('Massa','145','43','Galp'),('Proteína','145','294','Galp'),
+('Carne','313','324','MartaLda'),('Doces','1564','43','Ferrari'),('Arroz','193','7542','Mercedes'),('Hidratos','83','43','MAQUINAS3000');
 
-INSERT INTO evento_reposicao(ean,nro,num_serie,manuf,instant,units,tin) VALUES ('175616578157','1','43','Tomás','12/07/2020','2','145'), ('5839678063314','3','294','Diogo','16/10/2021','20','13');
+INSERT INTO evento_reposicao(ean,nro,num_serie,manuf,instant,units,tin) VALUES ('175616578157','1','43','Galp','12/07/2020','2','145'), ('5839678063314','3','294','Galp','16/10/2021','20','13');
