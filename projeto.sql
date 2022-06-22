@@ -212,11 +212,8 @@ WHERE tin IN  (SELECT tin FROM responsavel_por WHERE nome_cat IN (SELECT nome FR
 
 SELECT ean 
 FROM produto
-WHERE produto.ean NOT IN (SELECT ean from evento_reposicao)
+WHERE produto.ean NOT IN (SELECT ean from evento_reposicao);
 
-
-SELECT  nome
+SELECT  ean
 FROM evento_reposicao
-NATURAL JOIN produto,retailer
-GROUP BY ean
-WHERE (COUNT(distinct nome) == 1);
+WHERE 
