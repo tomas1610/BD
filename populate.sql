@@ -1,56 +1,40 @@
-INSERT INTO categoria (nome) VALUES ('Hidratos'),('Proteína'),
-    ('Massa'),('Arroz'),('Carne'),('Peixe'),('Gelado'),('Doces');
+INSERT INTO categoria (nome) VALUES ('Hidratos'),('Proteína'),('Massa'),('Arroz'),('Carne'),('Peixe'),('Gelado'),('Doces');
 
 INSERT INTO categoria_simples(nome) VALUES ('Massa'),('Arroz'),('Carne'),('Peixe'),('Gelado');
 
 INSERT INTO super_categoria(nome) VALUES ('Hidratos'),('Proteína'),('Doces');
 
-INSERT INTO produto(ean) VALUES ('175616578157'), ('1955193956522'), ('5839678063314'), ('8170646435651'), ('8336565155354'), ('2661153333792'), ('2165008898193'), ('7242985114642');
-INSERT INTO produto(cat) VALUES  ('Massa'),('Massa'),
-    ('Arroz'),('Gelado'),('Peixe'),('Carne'),('Carne'),('Peixe');
-INSERT INTO produto(descr) VALUES ('Esparguete'),('Lacinhos'),('Arroz Bazmati'),
-    ('Perna de Pau'),('Salmão'),('Peru'),('Frango'),('Pescada');
+INSERT INTO tem_outra(super_categoria,categoria) VALUES ('Hidratos','Massa'),('Proteína','Peixe'),('Hidratos','Arroz'),('Doces','Gelado');
 
-INSERT INTO tem_categoria(ean) VALUES ('175616578157'), ('1955193956522'), ('5839678063314'), ('8170646435651'), ('8336565155354'), ('2661153333792'), ('2165008898193'), ('7242985114642');
-INSERT INTO tem_categoria(cat) VALUES ('Massa'),('Massa'),
-    ('Arroz'),('Gelado'),('Peixe'),('Carne'),('Carne'),('Peixe');
+INSERT INTO produto(ean,cat,descr) VALUES ('175616578157','Massa','Esparguete'), ('1955193956522','Massa','Lacinhos'), ('5839678063314','Arroz','Arroz Bazmati'),
+ ('8170646435651','Gelado','Perna de Pau'), ('8336565155354','Peixe','Salmão'), ('2661153333792','Carne','Frango'),
+  ('2165008898193','Carne','Peru'), ('7242985114642','Peixe','Pescada');
 
-INSERT INTO ivm(num_serie) VALUES ('43'),('1567'),('294'),('324'),('7542'),('526');
-INSERT INTO ivm(manuf) VALUES ('Tomás'),('Filipe'),('Diogo'),('Matilde'),('Francisco'),('Mariana');
+INSERT INTO tem_categoria(ean,nome) VALUES ('175616578157','Massa'), ('1955193956522','Massa'), ('5839678063314','Arroz'),
+ ('8170646435651','Gelado'), ('8336565155354','Peixe'), ('2661153333792','Carne'), ('2165008898193','Carne'), ('7242985114642','Peixe');
 
-INSERT INTO ponto_de_retalho(nome) VALUES ('Galp'),('Continente'),('Pingo Doce'),('Mercadona'),('Galp');
-INSERT INTO ponto_de_retalho(distrito) VALUES ('Aveiro'),('Aveiro'),('Lisboa'),('Porto'),('Lisboa');
-INSERT INTO ponto_de_retalho(concelho) VALUES ('Aveiro'),('Ilhavo'),('Lisboa'),('Porto'),('Almada');
+INSERT INTO ivm(num_serie,manuf) VALUES ('43','Tomás'),('1567','Filipe'),('294','Diogo'),('324','Matilde'),('7542','Marta'),('526','Mariana');
 
-INSERT INTO instalada_em(num_serie) VALUES ('43'),('1567'),('294'),('324'),('7542'),('526');
-INSERT INTO instalada_em(manuf) VALUES ('Tomás'),('Filipe'),('Diogo'),('Matilde'),('Francisco'),('Mariana');
-INSERT INTO instalada_em(place) VALUES ('Aveiro'),('Ilhavo'),('Lisboa'),('Porto'),('Almada');~
+INSERT INTO ponto_de_retalho(nome,distrito,concelho) VALUES ('Galp','Aveiro','Aveiro'),('Continente','Aveiro','Ilhavo'),('Pingo Doce','Lisboa','Lisboa'),
+('Mercadona','Porto','Porto'),('Jumbo','Lisboa','Almada');
 
-INSERT INTO prateleira(nro) VALUES ('1'),('2'),('3'),('4'),('5'),('6');
-INSERT INTO prateleira(num_serie) VALUES ('43'),('1567'),('294'),('324'),('7542'),('526');
-INSERT INTO prateleira(manuf) VALUES ('Tomás'),('Filipe'),('Diogo'),('Matilde'),('Francisco'),('Mariana');
-INSERT INTO prateleira(heigh) VALUES ('30'),('12'),('8'),('2'),('42'),('17');
-INSERT INTO prateleira(nome) VALUES ('Massa'),('Arroz'),('Gelado'),('Peixe'),('Carne'),('Carne');
+INSERT INTO instalada_em(num_serie,manuf,place) VALUES ('43','Tomás','Galp'),('1567','Filipe','Jumbo'),('294','Diogo','Continente'),('324','Matilde','Galp'),
+('7542','Marta','Pingo Doce'),('526','Mariana','Galp');
 
-INSERT INTO planograma(ean) VALUES ('175616578157'), ('1955193956522'), ('5839678063314'), ('8170646435651'), ('8336565155354'), ('2661153333792'), ('2165008898193'), ('7242985114642');
-INSERT INTO planograma(nro) VALUES ('1'),('1'),('4'),('6'),('2'),('2');
-INSERT INTO planograma(num_serie) VALUES ('43'),('1567'),('294'),('324'),('7542'),('526');
-INSERT INTO planograma(manuf) VALUES ('Tomás'),('Filipe'),('Diogo'),('Matilde'),('Francisco'),('Mariana');
-INSERT INTO planograma(faces) VALUES ('3'),('1'),('5'),('1'),('2'),('3');
-INSERT INTO planograma(units) VALUES ('7'),('10'),('9'),('10'),('6'),('9');
+INSERT INTO prateleira(nro,num_serie,manuf,heigh,nome) VALUES ('1','43','Tomás','30','Massa'),('2','1567','Filipe','12','Arroz'),
+('3','294','Diogo','8','Gelado'),('4','324','Matilde','2','Peixe'),('5','7542','Marta','42','Carne'),('6','526','Mariana','17','Carne');
 
-INSERT INTO retalhista(tin) VALUES ('145'),('13'),('313'),('1564'),('193'),('83');
-INSERT INTO retalhista(nome) VALUES ('Tomás'),('Diogo'),('Filipe'),('Matilde'),('Mariana'),('Adriana');
+INSERT INTO planograma(ean,nro,num_serie,manuf,faces,units) 
+VALUES ('175616578157','1','43','Tomás','3','7'),
+ ('1955193956522','2','1567','Filipe','1','10'),
+  ('5839678063314','3','294','Diogo','5','9'),
+   ('8170646435651','4','324','Matilde','1','10'),
+    ('8336565155354','5','7542','Marta','2','6'),
+     ('2661153333792','6','526','Mariana','3','9');
 
-INSERT INTO responsavel_por(nome_cat) VALUE ('Massa'),('Proteína'),('Carne'),('Doces'),('Arroz'),('Hidratos');
-INSERT INTO responsavel_por(tin) VALUES ('145'),('13'),('313'),('1564'),('193'),('83');
-INSERT INTO responsavel_por(num_serie) VALUES ('43'),('1567'),('294'),('324'),('7542'),('526');
-INSERT INTO responsavel_por(manuf) VALUES ('Tomás'),('Filipe'),('Diogo'),('Matilde'),('Francisco'),('Mariana');
+INSERT INTO retalhista(tin,nome) VALUES ('145','Tomás'),('13','Diogo'),('313','Filipe'),('1564','Matilde'),('193','Mariana'),('83','Adriana');
 
-INSERT INTO evento_reposicao(ean) VALUES ('175616578157'), ('1955193956522'), ('5839678063314'), ('8170646435651'), ('8336565155354'), ('2661153333792'), ('2165008898193'), ('7242985114642');
-INSERT INTO evento_reposicao(nro) VALUES ('1'),('1'),('4'),('6'),('2'),('2');
-INSERT INTO evento_reposicao(num_serie) VALUES ('43'),('1567'),('294'),('324'),('7542'),('526');
-INSERT INTO evento_reposicao(manuf) VALUES ('Tomás'),('Filipe'),('Diogo'),('Matilde'),('Francisco'),('Mariana');
-INSERT INTO evento_reposicao(instant) VALUES ('12/07/2020'),('27/03/2021'),('16/10/2021'),('01/09/2020'),('23/04/2022'),('12/03/2021');
-INSERT INTO evento_reposicao(units) VALUES ('2'),('44'),('21'),('32'),('10'),('15');
-INSERT INTO evento_reposicao(tin) VALUES ('145'),('13'),('313'),('1564'),('193'),('83');
+INSERT INTO responsavel_por(nome_cat,tin,num_serie,manuf) VALUES ('Massa','145','43','Tomás'),('Proteína','13','1567','Filipe'),
+('Carne','313','294','Diogo'),('Doces','1564','324','Matilde'),('Arroz','193','7542','Marta'),('Hidratos','83','526','Mariana');
+
+INSERT INTO evento_reposicao(ean,nro,num_serie,manuf,instant,units,tin) VALUES ('175616578157','1','43','Tomás','12/07/2020','2','145'), ('5839678063314','3','294','Diogo','16/10/2021','20','13');

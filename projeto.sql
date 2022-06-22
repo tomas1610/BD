@@ -1,4 +1,20 @@
-CREATE DATABASE projeto 
+drop table if exists categoria cascade;
+drop table if exists categoria_simples cascade;
+drop table if exists super_categoria cascade;
+drop table if exists tem_outra cascade;
+drop table if exists produto cascade;
+drop table if exists tem_categoria cascade;
+drop table if exists ivm cascade;
+drop table if exists instalada_em cascade;
+drop table if exists instalada_em cascade;
+drop table if exists ponto_de_retalho cascade;
+drop table if exists instalada_em cascade;
+drop table if exists prateleira cascade;
+drop table if exists planograma cascade;
+drop table if exists retalhista cascade;
+drop table if exists responsavel_por cascade;
+drop table if exists evento_reposicao cascade;
+
 
 CREATE TABLE categoria(
     nome varchar(255) NOT NULL,
@@ -22,11 +38,11 @@ CREATE TABLE tem_outra(
     categoria varchar(255) NOT NULL,
     PRIMARY KEY(categoria),
     FOREIGN KEY(categoria) REFERENCES categoria(nome),
-    FOREIGN KEY(super_categoria) REFERENCES super_categoria(nome),
+    FOREIGN KEY(super_categoria) REFERENCES super_categoria(nome)
 );
 
 CREATE TABLE produto(
-    ean numeric(13,0) NOT NULL,
+    ean numeric(13,0),
     cat varchar(255) NOT NULL,
     descr varchar(255) NOT NULL,
     PRIMARY KEY(ean),
@@ -34,17 +50,16 @@ CREATE TABLE produto(
 );
 
 CREATE TABLE tem_categoria(
-    ean numeric(13,0) NOT NULL,
+    ean numeric(13,0),
     nome varchar(255) NOT NULL,
     FOREIGN KEY(ean) REFERENCES produto(ean),
     FOREIGN KEY(nome) REFERENCES categoria(nome)
 );
 
 CREATE TABLE ivm(
-    num_serie int NOT NULL,
+    num_serie int,
     manuf varchar(255) NOT NULL,
-    PRIMARY KEY(num_serie),
-    PRIMARY KEY(manuf)
+    PRIMARY KEY(num_serie,manuf)
 );
 
 CREATE TABLE ponto_de_retalho(
@@ -55,49 +70,39 @@ CREATE TABLE ponto_de_retalho(
 );
 
 CREATE TABLE instalada_em(
-    num_serie int NOT NULL,
+    num_serie int,
     manuf varchar(255) NOT NULL,
     place varchar(255) NOT NULL,
-    PRIMARY KEY(num_serie),
-    PRIMARY KEY(manuf),
-    FOREIGN KEY(num_serie) REFERENCES ivm(num_serie),
-    FOREIGN KEY(manuf) REFERENCES ivm(manuf),
-    FOREIGN KEY(place) REFERENCES ponto_de_retalho(concelho)
+    PRIMARY KEY(num_serie,manuf),
+    FOREIGN KEY(num_serie,manuf) REFERENCES ivm(num_serie,manuf),
+    FOREIGN KEY(place) REFERENCES ponto_de_retalho(nome)
 );
 
 CREATE TABLE prateleira(
-    nro int NOT NULL,
-    num_serie int NOT NULL,
+    nro int,
+    num_serie int,
     manuf varchar(255) NOT NULL,
-    heigh int NOT NULL,
+    heigh int,
     nome varchar(255) NOT NULL,
-    PRIMARY KEY(nro),
-    PRIMARY KEY(num_serie),
-    PRIMARY KEY(manuf),
-    FOREIGN KEY(num_serie) REFERENCES ivm(num_serie),
-    FOREIGN KEY(manuf) REFERENCES ivm(manuf),
+    PRIMARY KEY(nro,num_serie,manuf),
+    FOREIGN KEY(num_serie,manuf) REFERENCES ivm(num_serie,manuf),
     FOREIGN KEY(nome) REFERENCES categoria(nome)
 );
 
 CREATE TABLE planograma(
-    ean numeric(13,0) NOT NULL,
-    nro int NOT NULL,
-    num_serie int NOT NULL,
+    ean numeric(13,0),
+    nro int,
+    num_serie int,
     manuf varchar(255) NOT NULL,
-    faces int NOT NULL,
-    units int NOT NULL,
-    PRIMARY KEY(ean),
-    PRIMARY KEY(nro),
-    PRIMARY KEY(num_serie),
-    PRIMARY KEY(manuf),
+    faces int,
+    units int,
+    PRIMARY KEY(ean,nro,num_serie,manuf),
     FOREIGN KEY(ean) REFERENCES produto(ean),
-    FOREIGN KEY(nro) REFERENCES prateleira(nro),
-    FOREIGN KEY(num_serie) REFERENCES prateleira(num_serie),
-    FOREIGN KEY(manuf) REFERENCES prateleira(manuf)
+    FOREIGN KEY(nro,num_serie,manuf) REFERENCES prateleira(nro,num_serie,manuf)
 );
 
 CREATE TABLE retalhista(
-    tin int NOT NULL,
+    tin int,
     nome varchar(255) NOT NULL,
     UNIQUE(nome),
     PRIMARY KEY(tin)
@@ -105,34 +110,25 @@ CREATE TABLE retalhista(
 
 CREATE TABLE responsavel_por(
     nome_cat varchar(255) NOT NULL,
-    tin int NOT NULL,
-    num_serie int NOT NULL,
+    tin int,
+    num_serie int,
     manuf varchar(255) NOT NULL,
-    PRIMARY KEY(num_serie),
-    PRIMARY KEY(manuf),
-    FOREIGN KEY(num_serie) REFERENCES ivm(num_serie),
-    FOREIGN KEY(manuf) REFERENCES ivm(manuf),
+    PRIMARY KEY(num_serie,manuf),
+    FOREIGN KEY(num_serie,manuf) REFERENCES ivm(num_serie,manuf),
     FOREIGN KEY(tin) REFERENCES retalhista(tin),
     FOREIGN KEY(nome_cat) REFERENCES categoria(nome) 
 );
 
 CREATE TABLE evento_reposicao(
-    ean numeric(13,0) NOT NULL,
-    nro int NOT NULL,
-    num_serie int NOT NULL,
+    ean numeric(13,0),
+    nro int,
+    num_serie int,
     manuf varchar(255) NOT NULL,
     instant varchar(10) NOT NULL,
-    units int NOT NULL,
-    tin int NOT NULL,
-    PRIMARY KEY(ean),
-    PRIMARY KEY(nro),
-    PRIMARY KEY(num_serie),
-    PRIMARY KEY(manuf),
-    PRIMARY KEY(instant),
-    FOREIGN KEY(ean) REFERENCES planograma(ean),
-    FOREIGN KEY(nro) REFERENCES planograma(nro),
-    FOREIGN KEY(num_serie) REFERENCES planograma(num_serie),
-    FOREIGN KEY(manuf) REFERENCES planograma(manuf),
+    units int,
+    tin int,
+    PRIMARY KEY(ean,nro,num_serie,instant),
+    FOREIGN KEY(ean,nro,num_serie,manuf) REFERENCES planograma(ean,nro,num_serie,manuf),
     FOREIGN KEY(tin) REFERENCES retalhista(tin)
 );
 
