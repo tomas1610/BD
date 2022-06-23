@@ -22,7 +22,7 @@ INSERT INTO instalada_em(num_serie,manuf,place) VALUES ('43','Galp','Continente'
 ('324','MartaLda','Pingo Doce'),('7542','Mercedes','Galp');
 
 INSERT INTO prateleira(nro,num_serie,manuf,heigh,nome) VALUES ('1','43','Galp','30','Massa'),('2','43','MAQUINAS3000','12','Arroz'),
-('3','294','Galp','8','Gelado'),('4','324','MartaLda','2','Peixe'),('5','7542','Mercedes','42','Carne'),('6','43','Ferrari','17','Carne');
+('3','294','Galp','8','Gelado'),('4','324','MartaLda','2','Peixe'),('5','7542','Mercedes','42','Carne'),('7','43','Ferrari','20','Proteína');
 
 INSERT INTO planograma(ean,nro,num_serie,manuf,faces,units) 
 VALUES ('175616578157','1','43','Galp','3','7'),
@@ -30,11 +30,11 @@ VALUES ('175616578157','1','43','Galp','3','7'),
   ('5839678063314','3','294','Galp','5','9'),
    ('8170646435651','4','324','MartaLda','1','10'),
     ('8336565155354','5','7542','Mercedes','2','6'),
-     ('2661153333792','6','43','Ferrari','3','9');
+     ('175616578157','7','43','Ferrari','4','30');
 
 INSERT INTO retalhista(tin,nome) VALUES ('145','Tomás'),('13','Diogo'),('313','Filipe'),('1564','Matilde'),('193','Mariana'),('83','Adriana');
 
 INSERT INTO responsavel_por(nome_cat,tin,num_serie,manuf) VALUES ('Massa','145','43','Galp'),('Proteína','145','294','Galp'),
 ('Carne','313','324','MartaLda'),('Doces','1564','43','Ferrari'),('Arroz','193','7542','Mercedes'),('Hidratos','83','43','MAQUINAS3000');
 
-INSERT INTO evento_reposicao(ean,nro,num_serie,manuf,instant,units,tin) VALUES ('175616578157','1','43','Galp','12/07/2020','2','145'), ('5839678063314','3','294','Galp','16/10/2021','20','13');
+INSERT INTO evento_reposicao(ean,nro,num_serie,manuf,instant,units,tin) VALUES ('175616578157','1','43','Galp','12/07/2020','2','145'), ('5839678063314','3','294','Galp','16/10/2021','20','13'),('175616578157','7','43','Ferrari','18/03/2020','33','193');
