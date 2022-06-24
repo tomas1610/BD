@@ -1,20 +1,24 @@
-drop table if exists categoria;
-drop table if exists categoria_simples;
-drop table if exists super_categoria;
-drop table if exists tem_outra;
-drop table if exists produto;
-drop table if exists tem_categoria;
-drop table if exists ivm;
-drop table if exists instalada_em;
-drop table if exists instalada_em;
-drop table if exists ponto_de_retalho;
-drop table if exists instalada_em;
-drop table if exists prateleira;
-drop table if exists planograma;
-drop table if exists retalhista;
-drop table if exists responsavel_por;
-drop table if exists evento_reposicao;
+DROP VIEW IF EXISTS vendas;
+DROP TABLE IF EXISTS evento_reposicao;
+DROP TABLE IF EXISTS responsavel_por;
+DROP TABLE IF EXISTS retalhista;
+DROP TABLE IF EXISTS planograma;
+DROP TABLE IF EXISTS prateleira;
+DROP TABLE IF EXISTS instalada_em;
+DROP TABLE IF EXISTS ponto_de_retalho;
+DROP TABLE IF EXISTS ivm;
+DROP TABLE IF EXISTS tem_categoria;
+DROP TABLE IF EXISTS produto;
+DROP TABLE IF EXISTS tem_outra;
+DROP TABLE IF EXISTS super_categoria;
+DROP TABLE IF EXISTS categoria_simples;
+DROP TABLE IF EXISTS categoria;
 
+DROP index if EXISTS index_7_1_1;
+DROP INDEX IF EXISTS index_7_1_2;
+
+DROP index if exists index_7_2_1;
+DROP index if exists index_7_2_2;
 
 CREATE TABLE categoria(
     nome varchar(255) NOT NULL,
@@ -125,7 +129,7 @@ CREATE TABLE evento_reposicao(
     nro int,
     num_serie int,
     manuf varchar(255) NOT NULL,
-    instant varchar(10) NOT NULL,
+    instant TIMESTAMP NOT NULL,
     units int,
     tin int,
     PRIMARY KEY(ean,nro,num_serie,instant),
@@ -135,7 +139,6 @@ CREATE TABLE evento_reposicao(
 
  /*RESTRIÇÔES DE INTEGRIDADE */
 
-DROP TRIGGER IF EXISTS verifica_categoria_dentro_mesma ON tem_outra;
 DROP TRIGGER IF EXISTS verifica_numero_unidades ON evento_reposicao;
 DROP TRIGGER IF EXISTS verifica_produto_reposto ON evento_reposicao;
 
@@ -143,7 +146,7 @@ CREATE OR REPLACE FUNCTION verifica_numero_unidades_trigger_proc() RETURNS TRIGG
 AS $$
 
 BEGIN
-    IF new.units > (SELECT units FROM planograma WHERE planograma.ean = new.ean) THEN
+    IF new.units > (SELECT units FROM planograma WHERE planograma.ean = new.ean AND planograma.manuf = new.manuf) THEN
         RAISE EXCEPTION 'O número de unidades repostas num Evento de Reposição não pode exceder o número de unidades especIFicado no Planograma';
 
     END IF;
@@ -151,8 +154,27 @@ BEGIN
     RETURN new;
 END;
 $$ LANGUAGE plpgsql;
+
 CREATE CONSTRAINT TRIGGER verifica_numero_unidades AFTER INSERT OR UPDATE ON evento_reposicao
 FOR EACH ROW EXECUTE PROCEDURE verifica_numero_unidades_trigger_proc();
+
+
+CREATE OR REPLACE FUNCTION verifica_produto_reposto_trigger_proc() RETURNS TRIGGER
+AS $$
+
+BEGIN 
+    IF new.ean.nome IN (SELECT (SELECT nome FROM prateleira WHERE prateleira.nro = new.nro)) THEN 
+         RAISE EXCEPTION 'A prateleira nao suporta o tipo de categoria desse produto';
+        
+    END IF;
+
+    RETURN new;
+END;
+$$LANGUAGE plpgsql;
+
+CREATE CONSTRAINT TRIGGER verifica_produto_reposto AFTER INSERT OR UPDATE ON evento_reposicao
+FOR EACH ROW EXECUTE PROCEDURE verifica_numero_unidades_trigger_proc();
+
 
 /*  SQL   */
 
@@ -178,26 +200,24 @@ SELECT ean FROM evento_reposicao GROUP BY ean HAVING COUNT(DISTINCT tin) = 1;
 
 /* vistas */
 
-
+CREATE VIEW vendas(ean,cat,ano,trimestre,dia_mes,dia_semana,distrito,concelho,units) 
+AS SELECT p.ean,p.cat as cat, EXTRACT(YEAR FROM instant) as ano, EXTRACT(QUARTER FROM instant) as trimestre,
+EXTRACT(DAY FROM instant) as dia_mes, EXTRACT(WEEK FROM instant) as dia_semana,
+distrito,concelho,units  FROM produto as P NATURAL JOIN evento_reposicao as e NATURAL JOIN ponto_de_retalho NATURAL JOIN instalada_em;
 
 /* indices */
 
-DROP index if EXISTS index_7_1_1;
-DROP INDEX IF EXISTS index_7_1_2;
-CREATE INDEX index_7_1_1 ON retalhista(nome) USING btree;
+CREATE INDEX index_7_1_1 ON retalhista USING HASH(nome);
 CREATE INDEX index_7_1_2 ON responsavel_por USING HASH(tin);
 
 SELECT DISTINCT R.nome
 FROM retalhista R, responsavel_por P 
-WHERE R.tin = P.tin and P. nome_cat = 'Frutos';
+WHERE R.tin = P.tin and P.nome_cat = 'Carne';
 
-
-DROP index if exists index_7_2_1;
-DROP index if exists index_7_2_2;
 CREATE index index_7_2_1 ON tem_categoria USING HASH(nome);
 CREATE index index_7_2_2 ON produto USING HASH(ean);
 
 SELECT T.nome, count(T.ean) 
 FROM produto P, tem_categoria T
-WHERE p.cat = T.nome and P.descr like 'Pescada' 
+WHERE p.cat = T.nome and P.descr like 'P%' 
 GROUP BY T.nome;

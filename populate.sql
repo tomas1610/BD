@@ -37,4 +37,4 @@ INSERT INTO retalhista(tin,nome) VALUES ('145','Tomás'),('13','Diogo'),('313','
 INSERT INTO responsavel_por(nome_cat,tin,num_serie,manuf) VALUES ('Massa','145','43','Galp'),('Proteína','145','294','Galp'),
 ('Carne','313','324','MartaLda'),('Doces','1564','43','Ferrari'),('Arroz','193','7542','Mercedes'),('Hidratos','83','43','MAQUINAS3000');
 
-INSERT INTO evento_reposicao(ean,nro,num_serie,manuf,instant,units,tin) VALUES ('175616578157','1','43','Galp','12/07/2020','2','145'), ('5839678063314','3','294','Galp','16/10/2021','20','13'),('175616578157','7','43','Ferrari','18/03/2020','33','193');
+INSERT INTO evento_reposicao(ean,nro,num_serie,manuf,instant,units,tin) VALUES ('175616578157','1','43','Galp','2020/07/12','2','145'), ('5839678063314','3','294','Galp','2021/10/16','6','1564'),('175616578157','7','43','Ferrari','2020/03/18','20','193');
