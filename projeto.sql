@@ -209,6 +209,25 @@ FROM produto as P NATURAL JOIN
  instalada_em INNER JOIN 
  ponto_de_retalho ON ponto_de_retalho.nome = instalada_em.place;
 
+
+/* OLAPS*/
+
+/*   1     */
+
+SELECT concelho,dia_semana , SUM(units) AS total
+FROM VENDAS
+    WHERE trimestre BETWEEN 1 AND 3
+        GROUP BY 
+            ROLLUP(concelho,dia_semana);
+
+/*    2    */
+
+SELECT concelho,cat, dia_semana, SUM(units) AS total
+FROM VENDAS
+    WHERE distrito = 'Aveiro'
+        GROUP BY
+            ROLLUP(concelho,cat,dia_semana);
+
 /* indices */
 
 CREATE INDEX index_7_1_1 ON retalhista USING HASH(nome);
