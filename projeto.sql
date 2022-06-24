@@ -203,7 +203,11 @@ SELECT ean FROM evento_reposicao GROUP BY ean HAVING COUNT(DISTINCT tin) = 1;
 CREATE VIEW vendas(ean,cat,ano,trimestre,dia_mes,dia_semana,distrito,concelho,units) 
 AS SELECT p.ean,p.cat as cat, EXTRACT(YEAR FROM instant) as ano, EXTRACT(QUARTER FROM instant) as trimestre,
 EXTRACT(DAY FROM instant) as dia_mes, EXTRACT(WEEK FROM instant) as dia_semana,
-distrito,concelho,units  FROM produto as P NATURAL JOIN evento_reposicao as e NATURAL JOIN ponto_de_retalho NATURAL JOIN instalada_em;
+ponto_de_retalho.distrito,ponto_de_retalho.concelho,units  
+FROM produto as P NATURAL JOIN
+ evento_reposicao as e NATURAL JOIN 
+ instalada_em INNER JOIN 
+ ponto_de_retalho ON ponto_de_retalho.nome = instalada_em.place;
 
 /* indices */
 
